@@ -37,7 +37,8 @@ public class ContainerThing extends Thing{
         if(n<=0){
             return 0;
         }
-        return (totalWeightHelper(n-1) + things.get(n-1).totalWeight());
+
+        return (totalWeightHelper(n-1)) + things.get(n-1).totalWeight();
     }
 
     // max total amount of weight that can be carried.
@@ -50,8 +51,6 @@ public class ContainerThing extends Thing{
         for(int i = 0; i < things.size(); i++){
             tempWeight += things.get(i).totalWeight();
         }
-
-
         return tempWeight;
     }
 

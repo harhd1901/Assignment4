@@ -1,6 +1,6 @@
 package com.company;
 
-public class Vector2Tester {
+public class Vector2Tester{
 
     public static void main(String[] args){
         // test basic vectors
@@ -26,7 +26,7 @@ public class Vector2Tester {
         Vector2 zero = new Vector2();
         Vector2 one = new Vector2(1, 0);
         System.out.print("Distance: " + zero.toString() + " to " + one.toString() + " is " + Vector2.getDistance( zero, one));
-
+        AnimatedThing ds = new AnimatedThing();
         // Test Drawing
         StdDraw.show(0);
 

@@ -41,7 +41,8 @@ public class LinkedList {
 
     /*add - will add the given Vector2 into the LinkedList as the first Node */
     void add(Vector2 data) {
-        top = new Node(data, null);
+        Node newNode = new Node(data, top);
+        top = newNode;
     }
 
     /* add - will add the given Node to the front of the LinkedList */
@@ -75,7 +76,7 @@ public class LinkedList {
     /*remove -  will remove the first Node in the list and return the value */
     Vector2 remove() {
         // if the list is empty, we return null
-        if(top == null || top.getLink() == null) {
+        if(top == null) {
             return null;
         }
 
@@ -116,8 +117,8 @@ public class LinkedList {
         while(temp != null && temp.getLink() != null) {
             //distance btn 2 nodes
             //sqrt((x2-x1)^2 + (y2-y1)^2)
-            a = (temp.getLink().getData().x - temp.getData().x);
-            b = (temp.getLink().getData().y - temp.getData().y);
+            a = ((temp.getLink().getData().x - temp.getData().x)*(temp.getLink().getData().x - temp.getData().x));
+            b = (temp.getLink().getData().y - temp.getData().y)*(temp.getLink().getData().y - temp.getData().y);
             total += Math.sqrt(a+b);
             temp = temp.getLink();
         }
@@ -129,6 +130,7 @@ public class LinkedList {
      * add it to the end but print a warning to the console*/
     void insert(int index, Vector2 data) {
         int i = 0;
+        Node prev = null;
         Node temp = top;
         if(index > this.size()-1) {
             System.out.println("WARNING: index parameter is greater than the length Of List!");
@@ -137,22 +139,22 @@ public class LinkedList {
 
         while(temp != null){
             if(i == index){
-                Node intermediate = temp;
-                intermediate = temp.getLink();
-                temp.setLink(intermediate);
+                Node intermediate = new Node(data, temp);
+                prev.setLink(intermediate);
             }
-            temp = temp.getLink();
-            i+=1;
+                prev = temp;
+                temp = temp.getLink();
+                i += 1;
         }
     }
 
     /* compareTo - will compare the measured lengths of two LinkedLists */
     int compareTo(LinkedList other) {
-        if(other.totalLength() == this.totalLength()) {
+        if(other.size() == this.size()) {
             return 0;
         }
         else{
-            return (int)this.totalLength() - (int)other.totalLength();
+            return (int)this.size() - (int)other.size();
         }
     }
 
@@ -162,6 +164,7 @@ public class LinkedList {
         Node iterator = this.top;
         while(iterator != null) {
             newLinkedList.addLast(new Vector2(iterator.getData().x, iterator.getData().y));
+            iterator = iterator.getLink();
         }
         return newLinkedList;
     }
@@ -172,13 +175,21 @@ public class LinkedList {
     */
     public void addList(ArrayList<Vector2> source) {
         // resetting top to null
-        top = null;
-        Node temp = top;
-        for(int i = 0; i < source.size(); i++) {
-            temp.setData(new Vector2(source.get(i).x, source.get(i).y));
+        Node temp = null;
+        Node prev = null;
+        int i = source.size() - 1;
+        while(i >= 0){
+            temp = new Node(source.get(i),null);
+            temp.setLink(prev);
+            prev = temp;
+            i--;
         }
 
+        Node curr = temp;
+        while (curr.getLink()!=null){
+            curr = curr.getLink();
+        }
+        curr.setLink(top);
+        top = temp;
     }
-
-
 }
